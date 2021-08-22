@@ -12,9 +12,14 @@ class Article(BaseModel):
     comments : List[str] = []
 
 @app.post('/article/')
-def recognize_entities(article:Article, big_model: bool = False):
-    doc_en = nlp_en(article.content)
+def recognize_entities(articles : List[Article]):
     ents = []
-    for ent in doc_en.ents:
-        ents.append({"text": ent.text, "label": ent.label_})
-    return {"message": article.content, "ents": ents, "big_model": big_model}
+    response_body = []
+    for article in articles:
+        for comment in article.comments:
+            comment.l
+            doc_en = nlp_en(comment)
+            for ent in doc_en.ents:
+                ents.append({"text": ent.text, "label": ent.label_})
+            response_body.append({"message": comment, "ents": ents})
+    return response_body
